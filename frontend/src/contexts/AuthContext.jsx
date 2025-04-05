@@ -44,27 +44,20 @@ export const AuthProvider = ({ children }) => {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ username, password })
             });
-
+            const responseData = await response.json();
             if (!response.ok) {
-                const error = await response.json()
-                return error.message;
+                return responseData.message;
             }
-
-            const tokenData = await response.json();
-            localStorage.setItem("token", tokenData.token)
+            localStorage.setItem("token", responseData.token)
 
             const userResponse = await fetch(`${BACKEND_URL}/user/me`, {
                 headers: {"Authorization": `Bearer ${tokenData.token}`}
             });
-
+            const userResponseData = await userResponse.json();
             if (!userResponse.ok) {
-                const error = await response.json()
-                return error.message;
+                return userResponseData.message;
             }
-
-            const userData = await userResponse.json();
-            setUser(userData.user);
-
+            setUser(userResponseData.user);
             navigate("/profile");
 
         } catch (error) {
