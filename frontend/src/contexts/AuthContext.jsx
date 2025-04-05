@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem("token", responseData.token)
 
             const userResponse = await fetch(`${BACKEND_URL}/user/me`, {
-                headers: {"Authorization": `Bearer ${tokenData.token}`}
+                headers: {"Authorization": `Bearer ${responseData.token}`}
             });
             const userResponseData = await userResponse.json();
             if (!userResponse.ok) {
